@@ -10,7 +10,6 @@ import {
   GoogleAuthProvider
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { Button } from '@/components/ui/button';
 
 export default function AuthPage() {
   const router = useRouter();
