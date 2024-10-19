@@ -30,6 +30,14 @@ export async function POST(request: Request) {
     }
 
     const userData = userDoc.data();
+
+    if (!userData.send_message) {
+      return NextResponse.json(
+        { message: "SMS messing not enabled for user's emergency contact" },
+        { status: 200 }
+      );
+    }
+
     const emergencyContactPhone = userData.emergency_contact_phone;
     const userName = userData.name;
 
