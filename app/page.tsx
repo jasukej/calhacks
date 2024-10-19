@@ -4,16 +4,23 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { sendSMStoContact } from "@/hooks/sendSMStoContact";
 export default function Home() {
 
   const router = useRouter();
+
+  const handleButtonClick = async () => {
+    router.push('/breathe');
+    await sendSMStoContact();
+  }
 
   return (
     <div className="relative">
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-teal-100 to-blue-200">
       <button 
         className="relative w-64 h-64 cursor-pointer"
-        onClick={() =>router.push('/breathe')}>
+        onClick={handleButtonClick}>
         {/* Pulsing blurred background */}
         <div 
           className="absolute inset-0 bg-white rounded-full filter blur-xl animate-pulse"
