@@ -4,55 +4,84 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Ear, Eye, Hand } from 'lucide-react';
 import MenuButton from '@/components/MenuButton';
+import { assistantOptions } from '@/lib/constants/sensesAssistant';
+import { vapi } from '@/lib/vapi.sdk';
 
 function SensesPage() {
   const [currentSense, setCurrentSense] = useState<'hear' | 'see' | 'feel'>('hear');
   const [userInputs, setUserInputs] = useState({ hear: [], see: [], feel: [] });
   const [feedback, setFeedback] = useState('');
+  const [connecting, setConnecting] = useState(false);
+  const [connected, setConnected] = useState(false);
 
-  // sampled data for now
-  const sampleData = {
-    hear: ['birds chirping', 'car honking', 'music playing'],
-    see: ['blue sky', 'tall building', 'green tree'],
-    feel: ['soft pillow', 'warm sunlight', 'cold breeze'],
+  // Step 1: Start the assistant when the component is mounted / user presses start button
+  const startAssistant = () => {
+    vapi.start(assistantOptions);
+    setConnecting(true);
   };
 
-  // check if user has completed the current sense
+  // Step 2: Stop the assistant
+  const endCall = () => {
+    vapi.stop();
+    setConnected(false);
+  };
+
+  // Check if the current sense has 3 inputs
   const isSenseComplete = (sense: 'hear' | 'see' | 'feel') => {
     return userInputs[sense].length >= 3;
   };
 
-  // move to the next sense
+  // Move to the next sense after completing the current one
   const moveToNextSense = () => {
-    if (currentSense === 'hear') setCurrentSense('see');
-    else if (currentSense === 'see') setCurrentSense('feel');
+    if (currentSense === 'hear') {
+      setCurrentSense('see');
+    } else if (currentSense === 'see') {
+      setCurrentSense('feel');
+    } else {
+      setFeedback('Great job! You’ve completed the exercise.');
+      endCall(); // End the call after finishing all senses
+    }
   };
 
-  // hard code for now, simulate user input
+  // Step 3: Update user input state when they provide a response
+  const handleUserResponse = (response: any) => {
+    const newInput = response.transcription;  // capturing user speech transcription
+    if (!isSenseComplete(currentSense)) {
+      setUserInputs((prev) => ({
+        ...prev,
+        [currentSense]: [...prev[currentSense], newInput],
+      }));
+      setFeedback(`Great! "${newInput}" added to ${currentSense} list.`);
+    }
+
+    // After 3 valid responses, move to the next sense
+    if (isSenseComplete(currentSense)) {
+      moveToNextSense();
+      setFeedback(`Moving on to ${currentSense}. What can you ${currentSense}?`);
+    }
+  };
+
+  // Step 4: Initialize VAPI event listeners
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isSenseComplete(currentSense)) {
-        const newInput = sampleData[currentSense][userInputs[currentSense].length];
-        setUserInputs((prev) => ({
-          ...prev,
-          [currentSense]: [...prev[currentSense], newInput],
-        }));
-        setFeedback(`Great! "${newInput}" added to ${currentSense} list.`);
-
-        if (isSenseComplete(currentSense)) {
-          if (currentSense !== 'feel') {
-            moveToNextSense();
-            setFeedback(`Moving on to ${currentSense}. What can you ${currentSense}?`);
-          } else {
-            setFeedback('Great job! You\'ve completed the exercise.');
-            clearInterval(interval);
-          }
-        }
+    // Event listener to handle user responses (message from VAPI)
+    vapi.on('message', (message) => {
+      if (message.transcription) {
+        handleUserResponse(message);
       }
-    }, 2000); 
+    });
 
-    return () => clearInterval(interval);
-  }, [currentSense, userInputs]);
+    // Event listeners to manage assistant state
+    vapi.on('call-start', () => {
+      setConnecting(false);
+      setConnected(true);
+    });
+
+    vapi.on('call-end', () => {
+      setConnecting(false);
+      setConnected(false);
+    });
+
+  }, [currentSense]);
 
   const senses = [
     { title: 'Hear', icon: Ear },
@@ -96,6 +125,11 @@ function SensesPage() {
       </div>
       <div className="mt-8 text-xl font-semibold text-teal-700">{feedback}</div>
       <MenuButton from="senses" />
+      {!connected ? (
+        <button className="mt-4 btn-primary" onClick={startAssistant}>Start</button>
+      ) : (
+        <button className="mt-4 btn-primary" onClick={endCall}>End</button>
+      )}
     </div>
   );
 }

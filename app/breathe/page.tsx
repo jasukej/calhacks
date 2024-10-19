@@ -29,7 +29,8 @@ function BreathePage() {
                     "speed": "slow",
                     "emotion": [
                         "positivity:high",
-                        "curiosity"
+                        "curiosity",
+                        "sadness:low"
                     ]
                 }
             },
