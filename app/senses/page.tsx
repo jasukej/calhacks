@@ -6,6 +6,8 @@ import { Ear, Eye, Hand } from 'lucide-react';
 import MenuButton from '@/components/MenuButton';
 import { assistantOptions } from '@/lib/constants/sensesAssistant';
 import { vapi } from '@/lib/vapi.sdk';
+import { Button } from '@/components/ui/button';
+import axios from 'axios';
 
 function SensesPage() {
   const [currentSense, setCurrentSense] = useState<'hear' | 'see' | 'feel'>('hear');
@@ -14,13 +16,13 @@ function SensesPage() {
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
 
-  // Step 1: Start the assistant when the component is mounted / user presses start button
+  // Start the assistant when the component is mounted / user presses start button
   const startAssistant = () => {
     vapi.start(assistantOptions);
     setConnecting(true);
   };
 
-  // Step 2: Stop the assistant
+  // Stop the assistant
   const endCall = () => {
     vapi.stop();
     setConnected(false);
@@ -43,30 +45,53 @@ function SensesPage() {
     }
   };
 
-  // Step 3: Update user input state when they provide a response
-  const handleUserResponse = (response: any) => {
-    const newInput = response.transcription;  // capturing user speech transcription
-    if (!isSenseComplete(currentSense)) {
-      setUserInputs((prev) => ({
-        ...prev,
-        [currentSense]: [...prev[currentSense], newInput],
-      }));
-      setFeedback(`Great! "${newInput}" added to ${currentSense} list.`);
-    }
-
-    // After 3 valid responses, move to the next sense
-    if (isSenseComplete(currentSense)) {
-      moveToNextSense();
-      setFeedback(`Moving on to ${currentSense}. What can you ${currentSense}?`);
+  const validateInputWithLLM = async (sense: string, input: string): Promise<string | null> => {
+    try {
+      const response = await axios.post('/api/validateInput', { sense, input });
+      return response.data.validatedInput;
+    } catch (error) {
+      console.error('Error validating input with LLM:', error);
+      return null;
     }
   };
+  
+  
+  const handleUserResponse = async (response: any) => {
+    const rawInput = response.transcription;
+  
+    // Validate input with the LLM
+    const validatedInput = await validateInputWithLLM(currentSense, rawInput);
+    console.log("OpenAI response:", validatedInput);
+  
+    const containsNull = validatedInput?.toLowerCase().includes('null');
+    const maxLength = 20; // You can tweak this limit for your needs
+    if (validatedInput && !containsNull && validatedInput.length <= maxLength && !isSenseComplete(currentSense)) {
+    setUserInputs((prev) => ({
+      ...prev,
+        [currentSense]: [...prev[currentSense], validatedInput],
+      }));
+  
+      setFeedback(`Great! "${validatedInput}" added to the "${currentSense}" list.`);
+  
+      // Move to the next sense if 3 inputs have been provided for the current sense
+      if (userInputs[currentSense].length + 1 === 3) {
+        setTimeout(() => {
+          moveToNextSense();
+        }, 1000); // Small delay to give feedback before moving to the next sense
+      }
+    } else {
+      setFeedback('That input is not valid for this sense, try again.');
+    }
+  };  
 
   // Step 4: Initialize VAPI event listeners
   useEffect(() => {
     // Event listener to handle user responses (message from VAPI)
     vapi.on('message', (message) => {
-      if (message.transcription) {
+      if (message.type == 'transcript' && message.role == 'user' && message.transcriptType == 'final') {
+        console.log(message);
         handleUserResponse(message);
+        console.log("User inputs:", userInputs);
       }
     });
 
@@ -81,7 +106,7 @@ function SensesPage() {
       setConnected(false);
     });
 
-  }, [currentSense]);
+  }, [currentSense, userInputs]);
 
   const senses = [
     { title: 'Hear', icon: Ear },
@@ -111,7 +136,7 @@ function SensesPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: inputIndex * 0.2 }}
-                      className="text-gray-600 mb-2 text-center px-4 py-2 text-lg"
+                      className="text-gray-600 border-gray-800 border-2 rounded-md mb-2 text-center px-4 py-2 text-lg"
                     >
                       {input}
                     </motion.div>
@@ -126,9 +151,9 @@ function SensesPage() {
       <div className="mt-8 text-xl font-semibold text-teal-700">{feedback}</div>
       <MenuButton from="senses" />
       {!connected ? (
-        <button className="mt-4 btn-primary" onClick={startAssistant}>Start</button>
+        <Button className="mt-4 text-md btn-primary" onClick={startAssistant}>Start</Button>
       ) : (
-        <button className="mt-4 btn-primary" onClick={endCall}>End</button>
+        <Button className="mt-4 text-md btn-primary" onClick={endCall}>End</Button>
       )}
     </div>
   );

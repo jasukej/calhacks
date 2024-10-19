@@ -23,7 +23,7 @@ export const assistantOptions: CreateAssistantDTO = {
         Here's how you should interact with the user:
 
         Begin the Exercise:
-        "Let’s start with the 3 senses exercise. Take a deep breath."
+        "Let’s start with the 3 senses exercise." "Take a deep breath."
 
         Give the first prompt (Sight):
         "Now, name 3 things you can see around you."
