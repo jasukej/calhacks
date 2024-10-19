@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
+import Image from "next/image";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +28,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-r from-teal-100 to-blue-200`}
       >
-        {children}
+        <header className="absolute top-4 left-4 z-10 flex space-x-4 items-center">
+          <Link href="/">
+            <Image
+              src="/images/skoggy.png"
+              alt="Skoggy Logo"
+              width={50}
+              height={50}
+              className="rounded-full hover:scale-110 transition-all duration-300"
+            />
+          </Link>
+          <Link href="/contact">
+            <Image
+              src="/images/contact.png"
+              alt="Contact"
+              width={50}
+              height={50}
+              className="rounded-full hover:scale-110 transition-all duration-300"
+            />
+          </Link>
+        </header>
+
+            {children}
       </body>
     </html>
   );
