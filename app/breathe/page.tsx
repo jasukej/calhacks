@@ -44,7 +44,7 @@ function BreathePage() {
             const animateExhale = () => {
                 const elapsed = Date.now() - exhaleStartTime;
                 const progress = Math.max(1 - elapsed / 8000, 0);
-                setSliderProgress((1 - progress) * 100);
+                setSliderProgress(progress * 100);
                 if (progress > 0 && isMounted) {
                     animationFrameId = requestAnimationFrame(animateExhale);
                 }
