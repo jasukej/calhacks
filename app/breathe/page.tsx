@@ -5,9 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import MenuButton from '@/components/MenuButton';
 
+// Backend: call Cartesia API for every cycle
 function BreathePage() {
-    const router = useRouter();
-
     const [breathePhase, setBreathePhase] = useState<string>('inhale');
     const [sliderProgress, setSliderProgress] = useState(0);
 

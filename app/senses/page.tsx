@@ -1,8 +1,12 @@
 import React from 'react'
 
+// Config VAPI
 function SensesPage() {
   return (
-    <div>SensesPage</div>
+    <div>
+
+        
+    </div>
   )
 }
 
