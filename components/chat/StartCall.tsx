@@ -28,7 +28,7 @@ export default function StartCall() {
               }}
             >
               <motion.button
-                className="z-50 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-24 h-24 flex items-center justify-center shadow-lg relative"
+                className="z-50 rounded-full peer bg-gradient-to-r from-teal-300 to-blue-500 text-primary-foreground hover:scale-105 transition-all duration-300 ease-in-out w-32 h-32 backdrop-blur-lg bg-opacity-15 flex items-center justify-center shadow-lg relative"
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   connect()
@@ -37,7 +37,7 @@ export default function StartCall() {
                     .finally(() => {});
                 }}
               >
-                <Phone className="size-12" strokeWidth={1} />
+                <Phone strokeWidth={1} className="size-12 peer-hover:scale-110" />
               </motion.button>
             </motion.div>
           </AnimatePresence>

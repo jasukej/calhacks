@@ -38,7 +38,7 @@ export default function Controls() {
           copingMechanisms: JSON.stringify(result.copingMechanisms),
         }).toString();
   
-        router.push(`/summary?${queryParams}`);
+        router.push(`/summary`);
       } else {
         console.error(result.error);
       }
