@@ -26,7 +26,7 @@ export default function ForumPage() {
         ...doc.data(),
         createdAt: doc.data().createdAt
       })) as Post[];
-      setPosts(postList.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()));
+      setPosts(postList.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())));
     };
 
     fetchPosts();
