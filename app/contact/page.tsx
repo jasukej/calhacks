@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import Progress from '@/components/Progress';
 import { useForm, Controller } from 'react-hook-form';
 import Input from '@/components/Input';
 import { CircleHelp } from 'lucide-react';
