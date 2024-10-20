@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
+import Progress from '@/components/Progress';
 import MenuButton from '@/components/MenuButton';
 import { useTTS } from '@cartesia/cartesia-js/react';
 
@@ -26,10 +27,10 @@ function BreathePage() {
                 mode: "id",
                 id: "21b81c14-f85b-436d-aff5-43f2e788ecf8",
                 "__experimental_controls": {
-                    "speed": "slow",
+                    "speed": "slowest",
                     "emotion": [
                         "positivity:high",
-                        "curiosity",
+                        "curiosity:high",
                         "sadness:low"
                     ]
                 }
@@ -114,9 +115,9 @@ function BreathePage() {
             {!isStarted ? (
                 <button
                     onClick={handleStart}
-                    className="px-6 py-3 text-white bg-teal-500 rounded-full hover:bg-teal-600 transition-colors"
+                    className="px-6 py-3 text-white shadow-sm border-[1px] border-teal-800 font-mono bg-teal-500 rounded-full hover:bg-teal-600 transition-colors"
                 >
-                    Start Breathing Exercise
+                    START BREATHING EXERCISE
                 </button>
             ) : (
                 <>
@@ -132,7 +133,7 @@ function BreathePage() {
                             }}
                         />
                     </div>
-                    <p className="mt-24 text-2xl font-semibold font-serif text-teal-600">
+                    <p className="mt-24 text-2xl font-semibold font-mono text-teal-600">
                         {breathePhase === 'inhale' ? 'breathe in' : breathePhase === 'exhale' ? 'breathe out' : 'hold'}
                     </p>
                     <div className="w-64 h-1 bg-teal-100 rounded-full mt-4">
@@ -143,7 +144,10 @@ function BreathePage() {
                     </div>
                 </>
             )}
-            <MenuButton from="breathe" />
+            <div className="w-full absolute flex bottom-0 justify-center">
+                <Progress currentStep={1} />
+                <MenuButton from="breathe" />
+            </div>
         </div>
     )
 }

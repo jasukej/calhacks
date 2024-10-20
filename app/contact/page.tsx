@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import Progress from '@/components/Progress';
 import { useForm, Controller } from 'react-hook-form';
 import Input from '@/components/Input';
+import { CircleHelp } from 'lucide-react';
 
 type UserInfo = {
   name: string;
@@ -85,20 +87,31 @@ function ContactPage() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-cyan-100 to-blue-200 px-[10rem] gap-x-8 flex flex-row items-center justify-center">
       <div className="w-1/2 pr-8">
-        <h1 className="text-4xl font-bold font-serif text-teal-800 mb-4">Emergency Contact Information</h1>
-        <p className="text-sm text-gray-700 mb-4">If you are comfortable, please provide your emergency contact information. It allows us to contact your designated person in case of an emergency.</p>
+        <h1 className="text-4xl font-bold font-mono text-teal-800 mb-4">Your Emergency Contact</h1>
+        <span className="flex items-center gap-x-4">
+          <CircleHelp strokeWidth={1.25} size={18} />
+          <p className="text-sm text-gray-700">This info allows us to call your designated contact in case of an emergency.</p>
+        </span>
       </div>
+
       <div className="w-1/2 bg-white p-8 rounded-lg shadow-md">
         {userInfo && !isEditing ? (
-          <div className="space-y-4">
-            <p><span className="font-semibold">Name:</span> {userInfo.emergency_contact_name}</p>
-            <p><span className="font-semibold">Phone:</span> {userInfo.emergency_contact_phone}</p>
-            <p><span className="font-semibold">Relationship:</span> {userInfo.emergency_contact_relationship}</p>
+          <div className="space-y-4 relative">
+            <div className="grid grid-cols-7 gap-4">
+              <p className="font-semibold col-span-2 font-mono">Name</p> 
+              <p className="col-span-5">{userInfo.emergency_contact_name}</p>
+
+              <p className="font-semibold col-span-2 font-mono">Phone</p>
+              <p className="col-span-5">{userInfo.emergency_contact_phone}</p>
+
+              <p className="font-semibold col-span-2 font-mono">Relationship</p>
+              <p className="col-span-5">{userInfo.emergency_contact_relationship}</p>
+            </div>
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300 ease-in-out transform"
+              className="bg-neutral-700 justify-end absolute -top-6 right-0 hover:bg-black font-mono w-fit rounded-full text-white font-bold text-sm py-2 px-4 mt-4 transition duration-300 ease-in-out transform"
             >
-              Edit Information
+              EDIT INFO
             </button>
           </div>
         ) : (
@@ -111,17 +124,17 @@ function ContactPage() {
             <div className="flex justify-between">
               <button
                 type="submit"
-                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform"
+                className="bg-teal-600 hover:bg-teal-700 font-mono text-white rounded-full font-bold py-2 px-4 transition duration-300 ease-in-out transform"
               >
-                Save Information
+                SAVE INFO
               </button>
               {userInfo && (
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform"
+                  className="border-[2px] font-mono hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform"
                 >
-                  Cancel
+                  CANCEL
                 </button>
               )}
             </div>

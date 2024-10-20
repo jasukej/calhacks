@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Ear, Eye, Hand, Mic, Phone } from 'lucide-react';
+import Progress from '@/components/Progress';
 import MenuButton from '@/components/MenuButton';
 import { assistantOptions } from '@/lib/constants/sensesAssistant';
 import { vapi } from '@/lib/vapi.sdk';
@@ -119,7 +120,7 @@ function SensesPage() {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-teal-100 to-blue-200">
-      <div className="text-xl font-semibold font-mono mb-4 text-teal-600">Name 3 things you can...</div>
+      <div className="text-xl font-regular font-mono mb-4 text-black">Name 3 things you can...</div>
       <div className="p-8 rounded-lg w-full h-full max-w-4xl mb-6">
         <div className="flex">
           {senses.map((sense, index) => (
