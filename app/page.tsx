@@ -7,13 +7,12 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { sendSMStoContact } from "@/hooks/sendSMStoContact";
 export default function Home() {
-
   const router = useRouter();
 
   const handleButtonClick = async () => {
-    router.push('/breathe');
-    await sendSMStoContact();
-  }
+    router.push("/breathe");
+    sendSMStoContact();
+  };
 
   return (
     <div className="relative">

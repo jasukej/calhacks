@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ function ContactPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push('/auth');
+        router.push("/auth");
         return;
       }
       setUser(user);
@@ -47,7 +47,7 @@ function ContactPage() {
   // Fetch user info from Firestore
   const fetchUserInfo = async (userId: string) => {
     try {
-      const docRef = doc(db, 'users', userId);
+      const docRef = doc(db, "users", userId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -56,24 +56,24 @@ function ContactPage() {
         setUserInfo(null);
       }
     } catch (error) {
-      console.error('Error fetching user info:', error);
+      console.error("Error fetching user info:", error);
       setUserInfo(null);
     }
   };
 
   const onSubmit = async (data: UserInfo) => {
     if (!user) {
-      router.push('/auth');
+      router.push("/auth");
       return;
     }
 
     try {
-      const docRef = doc(db, 'users', user.uid);
+      const docRef = doc(db, "users", user.uid);
       await setDoc(docRef, data, { merge: true });
       await fetchUserInfo(user.uid);
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating user info:', error);
+      console.error("Error updating user info:", error);
     }
   };
 
