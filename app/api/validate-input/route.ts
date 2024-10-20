@@ -17,7 +17,9 @@ export async function POST(req: Request) {
       - If they said "I feel the sun on my skin", return "sun on my skin".
       
       Ignore unnecessary words like "I", "can", "feel", "hear", or "see". 
-      Only return the relevant description of what they ${sense}.
+      Only return the relevant description of what they ${sense}. 
+
+      If the input is not relevant to the sense, like 'hello', return "null".
     `;
 
     const openai = new OpenAI({
@@ -36,7 +38,7 @@ export async function POST(req: Request) {
     console.log("OpenAI completions:", validatedInput);
 
     // basic checks: filter out long responses or irrelevant input
-    if (validatedInput.split(' ').length > 5) {
+    if (validatedInput.split(' ').length > 4) {
       validatedInput = 'null';
     }
 

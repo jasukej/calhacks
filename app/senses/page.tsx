@@ -69,10 +69,19 @@ function SensesPage() {
     const containsNull = validatedInput?.toLowerCase().includes('null');
     const maxLength = 20; // You can tweak this limit for your needs
     if (validatedInput && !containsNull && validatedInput.length <= maxLength && !isSenseComplete(currentSense)) {
-      setUserInputs((prev) => ({
-        ...prev,
-        [currentSense]: [...prev[currentSense], validatedInput],
-      }));
+        setUserInputs((prev) => {
+            const currentInputs = prev[currentSense];
+            // @ts-ignore
+            if (!currentInputs.includes(validatedInput)) {
+              return {
+                ...prev,
+                [currentSense]: [...currentInputs, validatedInput], // Add input only if it's not a duplicate
+              };
+            } else {
+              setFeedback('This input has already been added.');
+              return prev;
+            }
+          });
   
       setFeedback(`Great! "${validatedInput}" added to the "${currentSense}" list.`);
       setLatestInput(validatedInput);
