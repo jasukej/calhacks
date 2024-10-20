@@ -17,14 +17,11 @@ export default function SummaryPage() {
   useEffect(() => {
     const fetchLatestUserLogs = async () => {
       const userLogsRef = collection(db, 'userLogs');
-      const test = query(userLogsRef);
-      console.log(await getDocs(test))
       const q = query(userLogsRef, orderBy('timestamp', 'desc'), limit(1));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         const latestLog = querySnapshot.docs[0].data();
-        console.log(latestLog)
         setSearchResults(latestLog.searchResults);
       }
     };
