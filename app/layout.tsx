@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -63,8 +64,9 @@ export default function RootLayout({
     </span>
   </div>
 </header>
-
-            {children}
+  <Suspense fallback={<div>Loading...</div>}>
+    {children}
+  </Suspense>
       </body>
     </html>
   );

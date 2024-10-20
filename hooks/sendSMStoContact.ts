@@ -18,7 +18,7 @@ export const sendSMStoContact = async () => {
 
         console.log(user.uid);
 
-        const response = await axios.post('/api/sendSMS', {
+        const response = await axios.post('/api/send-sms', {
             userId: user.uid,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,

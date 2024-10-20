@@ -5,7 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase'; 
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
-import { House, PlusCircle } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import Post from '@/components/Post';
 interface Post {
   id: string;

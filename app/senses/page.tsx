@@ -165,6 +165,9 @@ function SensesPage() {
             <span>END</span>
           </Button>
         )}
+        <div className="w-full absolute flex bottom-0 justify-center">
+            <Progress currentStep={2} />
+        </div>
     </div>
   );
 }

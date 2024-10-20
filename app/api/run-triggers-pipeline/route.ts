@@ -34,7 +34,7 @@ async function extractKeyPhrases(content: string): Promise<string[]> {
   return result;
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const { chatGroupId } = await req.json();
 
   console.log(chatGroupId);
