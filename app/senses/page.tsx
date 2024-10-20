@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Ear, Eye, Hand } from 'lucide-react';
+import { Ear, Eye, Hand, Mic, Phone } from 'lucide-react';
+import Progress from '@/components/Progress';
 import MenuButton from '@/components/MenuButton';
 import { assistantOptions } from '@/lib/constants/sensesAssistant';
 import { vapi } from '@/lib/vapi.sdk';
@@ -15,6 +16,7 @@ function SensesPage() {
   const [feedback, setFeedback] = useState('');
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
+  const [latestInput, setLatestInput] = useState<string | null>(null);
 
   // Start the assistant when the component is mounted / user presses start button
   const startAssistant = () => {
@@ -40,14 +42,15 @@ function SensesPage() {
     } else if (currentSense === 'see') {
       setCurrentSense('feel');
     } else {
-      setFeedback('Great job! You’ve completed the exercise.');
+      setFeedback('Great job! You\'ve completed the exercise.');
       endCall(); // End the call after finishing all senses
     }
+    setLatestInput(null); // Reset latest input when moving to next sense
   };
 
   const validateInputWithLLM = async (sense: string, input: string): Promise<string | null> => {
     try {
-      const response = await axios.post('/api/validateInput', { sense, input });
+      const response = await axios.post('/api/validate-input', { sense, input });
       return response.data.validatedInput;
     } catch (error) {
       console.error('Error validating input with LLM:', error);
@@ -66,12 +69,13 @@ function SensesPage() {
     const containsNull = validatedInput?.toLowerCase().includes('null');
     const maxLength = 20; // You can tweak this limit for your needs
     if (validatedInput && !containsNull && validatedInput.length <= maxLength && !isSenseComplete(currentSense)) {
-    setUserInputs((prev) => ({
-      ...prev,
+      setUserInputs((prev) => ({
+        ...prev,
         [currentSense]: [...prev[currentSense], validatedInput],
       }));
   
       setFeedback(`Great! "${validatedInput}" added to the "${currentSense}" list.`);
+      setLatestInput(validatedInput);
   
       // Move to the next sense if 3 inputs have been provided for the current sense
       if (userInputs[currentSense].length + 1 === 3) {
@@ -116,14 +120,14 @@ function SensesPage() {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-teal-100 to-blue-200">
-      <div className="text-2xl font-semibold font-serif mb-4 text-teal-600">Name 3 things you can...</div>
-      <div className="p-8 rounded-lg w-full h-full max-w-4xl">
+      <div className="text-xl font-regular font-mono mb-4 text-black">Name 3 things you can...</div>
+      <div className="p-8 rounded-lg w-full h-full max-w-4xl mb-6">
         <div className="flex">
           {senses.map((sense, index) => (
             <React.Fragment key={index}>
               <div className="flex-1 min-w-1/3px-4 text-center">
                 {React.createElement(sense.icon, { strokeWidth: 1, className: 'w-16 h-16 mx-auto mb-4' })}
-                <h2 className="text-2xl font-semibold font-serif mb-8 text-black">{sense.title}</h2>
+                <h2 className="text-2xl font-semibold font-mono mb-8 text-black">{sense.title}</h2>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -136,7 +140,7 @@ function SensesPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: inputIndex * 0.2 }}
-                      className="text-gray-600 border-gray-800 border-2 rounded-md mb-2 text-center px-4 py-2 text-lg"
+                      className={`text-gray-600 border-gray-800 border-1 rounded-md mb-2 text-center px-4 py-2 text-lg ${input === latestInput ? 'bg-gray-200 border-[1px] border-gray-500' : ''}`}
                     >
                       {input}
                     </motion.div>
@@ -148,13 +152,19 @@ function SensesPage() {
           ))}
         </div>
       </div>
-      <div className="mt-8 text-xl font-semibold text-teal-700">{feedback}</div>
+      {/* <div className="mt-8 text-xl font-semibold text-teal-700">{feedback}</div> */}
       <MenuButton from="senses" />
       {!connected ? (
-        <Button className="mt-4 text-md btn-primary" onClick={startAssistant}>Start</Button>
-      ) : (
-        <Button className="mt-4 text-md btn-primary" onClick={endCall}>End</Button>
-      )}
+          <Button className="text-md hover:scale-105 transition-all duration-300 ease-in-out font-mono btn-primary flex items-center gap-2" onClick={startAssistant}>
+            <Mic className="w-6 h-6" />
+            <span>START</span>
+          </Button>
+        ) : (
+          <Button className="text-md hover:scale-105 transition-all duration-300 ease-in-out font-mono btn-primary flex items-center gap-2" onClick={endCall} variant="destructive">
+            <Phone className="w-6 h-6 opacity-60" />
+            <span>END</span>
+          </Button>
+        )}
     </div>
   );
 }
