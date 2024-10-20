@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
-const pages = ['breathe', 'threes', 'talk with skog']
+const pages = ['breathe', '3 senses', 'talk with skog']
 
 export default function MenuPage() {
   const router = useRouter()
@@ -55,13 +55,13 @@ export default function MenuPage() {
 
   const handleClick = (page: string) => {
     switch (page) {
-      case 'BREATHE':
+      case 'breathe':
         router.push('/breathe')
         break
-      case '3 SENSES':
+      case '3 senses':
         router.push('/senses')
         break
-      case 'DE-ESCALATE':
+      case 'talk with skog':
         router.push('/talk')
         break
     }
