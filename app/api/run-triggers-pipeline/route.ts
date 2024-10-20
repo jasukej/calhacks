@@ -2,7 +2,7 @@ import { HumeClient } from 'hume';
 import { fetchCopingMechanisms } from '@/lib/utils/gemini';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 // Helper to process message and remove stopwords
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     try {
       const userLogsRef = collection(db, 'userLogs');
-      const docRef = await addDoc(userLogsRef, { searchResults });
+      const docRef = await addDoc(userLogsRef, { createdAt: serverTimestamp(), searchResults });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
