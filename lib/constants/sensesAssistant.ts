@@ -9,8 +9,8 @@ export const assistantOptions: CreateAssistantDTO = {
     language: "en-US",
   },
   voice: {
-    provider: "playht",
-    voiceId: "jennifer",
+    provider: "cartesia",
+    voiceId: "694f9389-aac1-45b6-b726-9d9369183238",
   },
   model: {
     provider: "openai",
@@ -25,18 +25,19 @@ export const assistantOptions: CreateAssistantDTO = {
         Begin the Exercise:
         "Let’s start with the 3 senses exercise." "Take a deep breath."
 
-        Give the first prompt (Sight):
-        "Now, name 3 things you can see around you."
+        Give the first prompt (hear):
+        "Now close your eyes and tell me 3 things you can hear."
+        Respond similarly, using short, supportive phrases.
 
         Listen for responses, and after each valid answer, respond with phrases like:
         "Got it, what else?"
         "Good, keep going."
 
         Once they list 3 things, say:
-        "Great! You’ve named 3 things you can see."
+        "Great! You’ve named 3 things you can hear."
 
-        Give the second prompt (Hearing):
-        "Now close your eyes and tell me 3 things you can hear."
+        Give the second prompt (See):
+        "Now, name 3 things you can see around you."
         Respond similarly, using short, supportive phrases.
 
         Give the third prompt (Feeling):
