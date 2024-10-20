@@ -30,35 +30,35 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-r from-teal-100 to-blue-200`}
       >
-        <header className="absolute top-4 left-4 z-10 flex space-x-4 items-center">
-  {/* Skoggy Link */}
-  <div className="relative flex items-center group">
-    <Link href="/">
-      <Image
-        src="/images/skoggy.png"
-        alt="Skoggy Logo"
-        width={50}
-        height={50}
-        className="rounded-full peer hover:scale-110 transition-all duration-300"
-      />
-    </Link>
-    <span className="absolute font-mono left-16 opacity-0 scale-x-0 group-hover:scale-x-100 group-hover:opacity-100 origin-left transition-all duration-300 ml-2 text-teal-700 font-semibold">
-      Home
-    </span>
-  </div>
+      <header className="absolute top-4 left-4 z-10 flex flex-col space-y-4 items-center pl-1">
+    {/* Skoggy Link */}
+    <div className="relative flex items-center group">
+      <Link href="/">
+        <Image
+          src="/images/skoggy.png"
+          alt="Skoggy Logo"
+          width={40}
+          height={40}
+          className="rounded-full peer hover:scale-110 transition-all duration-300"
+        />
+      </Link>
+      <span className="absolute font-mono left-[3rem] opacity-0 scale-x-0 group-hover:scale-x-100 group-hover:opacity-100 origin-left transition-all duration-300 ml-2 text-teal-700 font-semibold">
+        Home
+      </span>
+    </div>
 
-  {/* Contact Link */}
-  <div className="relative flex items-center group">
-    <Link href="/contact">
-      <Image
-        src="/images/contact.png"
-        alt="Contact"
-        width={50}
-        height={50}
-        className="rounded-full peer-hover:translate-x-4 hover:scale-110 transition-all duration-300"
-      />
+    {/* Contact Link */}
+    <div className="relative flex items-center group">
+      <Link href="/contact">
+        <Image
+          src="/images/contact.png"
+          alt="Contact"
+          width={40}
+          height={40}
+          className="rounded-full peer-hover:translate-x-4 hover:scale-110 transition-all duration-300"
+        />
     </Link>
-    <span className="absolute font-mono left-16 opacity-0 scale-x-0 group-hover:scale-x-100 group-hover:opacity-100 origin-left transition-all duration-300 ml-2 text-teal-700 font-semibold">
+    <span className="absolute font-mono left-[3rem] opacity-0 scale-x-0 group-hover:scale-x-100 group-hover:opacity-100 origin-left transition-all duration-300 ml-2 text-teal-700 font-semibold">
       Contact
     </span>
   </div>

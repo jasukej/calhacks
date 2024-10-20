@@ -32,7 +32,7 @@ export default function Home() {
         {/* Button text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xl font-serif cursor-pointer font-bold text-teal-600 z-10 hover:scale-105 transition-all duration-300">
-            tap me
+            skog
           </span>
         </div>
       </button>
@@ -51,6 +51,9 @@ export default function Home() {
       }
     `}</style>
 
+    <div className="flex absolute bottom-0 justify-center w-full">
+      <div className="font-mono pb-8 text-teal-800 text-sm font-semibold">tap to start</div>
+    </div>
     <Button
       onClick={() => router.push('/share')}
       className="border-teal-950 cursor-pointer absolute bottom-8 right-8 border-[0.5px] px-4 py-2 flex items-center space-x-2 bg-transparent hover:bg-teal-700 text-teal-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105"
