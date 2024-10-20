@@ -15,7 +15,7 @@ async function extractKeyPhrases(content: string): Promise<string[]> {
     model: 'gpt-4o-mini',
     messages: [
       { role: "system", content: "You are a helpful assistant helping the user recover from their anxiety attack." }, 
-      { role: 'user', content: `Extract 1-3 anxiety triggers the user has from the following messages: ${content} and return them in an array of strings.` }
+      { role: 'user', content: `Extract 1-3 anxiety triggers the user has from the following messages: ${content} and return them in an array of strings. Do not return anything else.` }
     ],
   });
 
