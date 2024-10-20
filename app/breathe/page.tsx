@@ -37,7 +37,7 @@ function BreathePage() {
             transcript: text,
         });
 
-        // Immediately play the audio.
+        // Immediately play the audio
         await tts.play();
     }
 
@@ -54,6 +54,7 @@ function BreathePage() {
             // Inhale phase
             setBreathePhase('inhale');
             handlePlay('breathe in');
+            setSliderProgress(0); // Reset progress for inhale
             const inhaleStartTime = Date.now();
             const animateInhale = () => {
                 const elapsed = Date.now() - inhaleStartTime;
@@ -76,6 +77,7 @@ function BreathePage() {
             // Exhale phase
             setBreathePhase('exhale');
             handlePlay('breathe out');
+            setSliderProgress(100); // Start exhale from 100% progress
             const exhaleStartTime = Date.now();
             const animateExhale = () => {
                 const elapsed = Date.now() - exhaleStartTime;
@@ -146,4 +148,5 @@ function BreathePage() {
     )
 }
 
-export default BreathePage
+export default BreathePage;
+

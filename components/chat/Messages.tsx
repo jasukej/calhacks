@@ -11,8 +11,6 @@ const Messages = forwardRef<
 >(function Messages(_, ref) {
   const { messages } = useVoice();
 
-  console.log(messages);
-
   return (
     <motion.div
       layoutScroll
@@ -23,19 +21,18 @@ const Messages = forwardRef<
         className={"max-w-2xl mx-auto w-full flex flex-col gap-4 pb-24"}
       >
         <AnimatePresence mode={"popLayout"}>
-          {messages.map((msg:any, index:any) => {
-            if (
-              msg.type === "user_message" ||
-              msg.type === "assistant_message"
-            ) {
+          {messages.map((msg: any, index: any) => {
+            if (msg.type === "user_message" || msg.type === "assistant_message") {
               return (
                 <motion.div
                   key={msg.type + index}
                   className={cn(
                     "w-[80%]",
-                    "bg-white",
                     "border border-gray-200 rounded",
-                    msg.type === "user_message" ? "ml-auto" : ""
+                    // Set background and text color for user messages
+                    msg.type === "user_message" 
+                      ? "ml-auto bg-gray-800 text-white" // Dark background, white text for user
+                      : "bg-white text-black" // Default for assistant
                   )}
                   initial={{
                     opacity: 0,
@@ -58,7 +55,10 @@ const Messages = forwardRef<
                     {msg.message.role}
                   </div>
                   <div className={"pb-3 px-3"}>{msg.message.content}</div>
-                  <Expressions values={{ ...msg.models.prosody?.scores }} />
+
+                  {msg.type === "user_message" && (
+                    <Expressions values={{ ...msg.models.prosody?.scores }} />
+                  )}
                 </motion.div>
               );
             }

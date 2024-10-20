@@ -1,4 +1,5 @@
 "use client";
+
 import { useVoice } from "@humeai/voice-react";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Phone } from "lucide-react";
@@ -6,9 +7,45 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Toggle } from "@/components/ui/toggle";
 import MicFFT from "@/components/chat/MicFFT";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Controls() {
-  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice();
+  const { disconnect, status, isMuted, unmute, mute, micFft, chatMetadata } = useVoice();
+  const router = useRouter();
+  const [chatGroupId, setChatGroupId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (chatMetadata && chatMetadata.chatGroupId) {
+      setChatGroupId(chatMetadata.chatGroupId);
+    }
+  }, [chatMetadata]);
+
+  const endCallAndSaveMessages = async () => {
+    try {
+      if (!chatGroupId) {
+        console.error('No chatGroupId available');
+        return;
+      }
+
+      const response = await axios.post('/api/run-triggers-pipeline', { chatGroupId });
+
+      const result = response.data;
+
+      if (response.status === 200) {
+        const queryParams = new URLSearchParams({
+          copingMechanisms: JSON.stringify(result.copingMechanisms),
+        }).toString();
+  
+        router.push(`/summary?${queryParams}`);
+      } else {
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error('Error ending call and saving messages:', error);
+    }
+  };
 
   return (
     <div
@@ -63,6 +100,7 @@ export default function Controls() {
               className={"flex items-center gap-1"}
               onClick={() => {
                 disconnect();
+                endCallAndSaveMessages();
               }}
               variant={"destructive"}
             >
