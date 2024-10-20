@@ -60,7 +60,7 @@ function SensesPage() {
   
   
   const handleUserResponse = async (response: any) => {
-    const rawInput = response.transcription;
+    const rawInput = response.transcript;
   
     // Validate input with the LLM
     const validatedInput = await validateInputWithLLM(currentSense, rawInput);
