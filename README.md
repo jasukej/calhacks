@@ -16,12 +16,6 @@ Automating panic attack first aid and trigger diagnosis with empathetic voice AI
 
 ## 🧐 Features
 
-Here's an enhanced version of the features section, emphasizing the functionality and value of each feature:
-
----
-
-## 🧐 Features
-
 skog provides both **immediate support** for users experiencing panic attacks and a **comprehensive tool** to help mental health professionals diagnose and track anxiety triggers over time. Key features include:
 
 - **Voice-Assisted Grounding Exercises**: Skog automates scientifically-backed de-escalation techniques such as breathing exercises and the 3-3-3 method, guiding users step-by-step through calming practices designed to alleviate panic attack symptoms quickly.
@@ -31,10 +25,6 @@ skog provides both **immediate support** for users experiencing panic attacks an
 - **Emergency Contact Alerts**: In critical moments, Skog automatically alerts a designated emergency contact via SMS when it detects signs of a severe panic attack, ensuring that users are not alone during high-stress situations.
 
 - **Community Forum**: Skog provides a supportive online space where users can share their experiences, connect with others who face similar challenges, and validate their feelings. This sense of community helps users feel heard, reducing isolation and stigma associated with anxiety.
-
----
-
-This version highlights how Skog's features are practical, impactful, and directly beneficial to both users and healthcare providers. It also adds more detail on how each feature operates and the value it delivers.
 
 ## 🛠️ Installation Steps
 
