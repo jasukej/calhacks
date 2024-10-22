@@ -8,9 +8,11 @@ Automating panic attack first aid and trigger diagnosis with empathetic voice AI
 
 ## 📸 Project Screenshots
 
-<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/090/942/datas/original.png" alt="project-screenshot" width="400">
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/093/360/datas/original.png" alt="project-screenshot" width="600">
 
-<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/091/651/datas/original.png" alt="project-screenshot" width="400">
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/090/942/datas/original.png" alt="project-screenshot" width="600">
+
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/091/651/datas/original.png" alt="project-screenshot" width="600">
 
 ## 🧐 Features
 
